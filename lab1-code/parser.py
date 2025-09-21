@@ -1,6 +1,6 @@
 """
 Algebraic expression parser implementing lexical analysis and syntax parsing
-Author: zhengxuan huang
+Author: dahuangggg
 """
 
 from typing import List, Union
