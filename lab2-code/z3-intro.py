@@ -49,41 +49,64 @@ pretty_print(F)
 ##                           Part A                           ##
 ################################################################
 
+# Helper function to prove tautologies
+def prove_tautology(expr, name):
+    print(f"{name}:")
+    pretty_print(expr)
+    prove(expr)
+    print()
+
 # exercises 1 : P -> (Q -> P)
-# Please use z3 to define the proposition. 
+# Please use z3 to define the proposition.
 # Note that you need to define the proposition, and prove it.
-raise NotImplementedError('TODO: Your code here!') 
+P, Q = Bools('P Q')
+exercise1 = Implies(P, Implies(Q, P))
+prove_tautology(exercise1, "Exercise 1") 
 
 
 # exercise 2 : (P -> Q) -> ((Q -> R) -> (P -> R))
-# Please use z3 to define the proposition. 
+# Please use z3 to define the proposition.
 # Note that you need to define the proposition, and prove it.
-raise NotImplementedError('TODO: Your code here!') 
+P, Q, R = Bools('P Q R')
+exercise2 = Implies(Implies(P, Q), Implies(Implies(Q, R), Implies(P, R)))
+prove_tautology(exercise2, "Exercise 2") 
 
 # exercise 3 : (P /\ (Q /\ R)) -> ((P /\ Q) /\ R)
-# Please use z3 to define the proposition. 
+# Please use z3 to define the proposition.
 # Note that you need to define the proposition, and prove it.
-raise NotImplementedError('TODO: Your code here!') 
+P, Q, R = Bools('P Q R')
+exercise3 = Implies(And(P, And(Q, R)), And(And(P, Q), R))
+prove_tautology(exercise3, "Exercise 3") 
 
 # exercise 4 : (P \/ (Q \/ R)) -> ((P \/ Q) \/ R)
-# Please use z3 to define the proposition. 
+# Please use z3 to define the proposition.
 # Note that you need to define the proposition, and prove it.
-raise NotImplementedError('TODO: Your code here!') 
+P, Q, R = Bools('P Q R')
+exercise4 = Implies(Or(P, Or(Q, R)), Or(Or(P, Q), R))
+prove_tautology(exercise4, "Exercise 4") 
 
 # exercise 5 : ((P -> R) /\ (Q -> R)) -> ((P /\ Q) -> R)
-# Please use z3 to define the proposition. 
+# Please use z3 to define the proposition.
 # Note that you need to define the proposition, and prove it.
-raise NotImplementedError('TODO: Your code here!') 
+P, Q, R = Bools('P Q R')
+exercise5 = Implies(And(Implies(P, R), Implies(Q, R)), Implies(And(P, Q), R))
+prove_tautology(exercise5, "Exercise 5") 
     
 # exercise 6 : ((P /\ Q) -> R) <-> (P -> (Q -> R))
-# Please use z3 to define the proposition. 
+# Please use z3 to define the proposition.
 # Note that you need to define the proposition, and prove it.
-raise NotImplementedError('TODO: Your code here!') 
+P, Q, R = Bools('P Q R')
+left = Implies(And(P, Q), R)
+right = Implies(P, Implies(Q, R))
+exercise6 = And(Implies(left, right), Implies(right, left))
+prove_tautology(exercise6, "Exercise 6") 
     
 # exercise 7 : (P -> Q) -> (¬Q -> ¬P)
-# Please use z3 to define the proposition 
+# Please use z3 to define the proposition
 # Note that you need to define the proposition, and prove it.
-raise NotImplementedError('TODO: Your code here!') 
+P, Q = Bools('P Q')
+exercise7 = Implies(Implies(P, Q), Implies(Not(Q), Not(P)))
+prove_tautology(exercise7, "Exercise 7") 
 
 
 ################################################################
@@ -113,45 +136,119 @@ pretty_print(F)
 
 # Now you can complete the following exercise based on the example above
 
-# exercise 8 : # ∀x.(¬P(x) /\ Q(x)) -> ∀x.(P(x) -> Q(x))
-# Please use z3 to define the proposition. 
+# exercise 8 : ∀x.(¬P(x) /\ Q(x)) -> ∀x.(P(x) -> Q(x))
+# Please use z3 to define the proposition.
 # Note that you need to define the proposition, and prove it.
-raise NotImplementedError('TODO: Your code here!') 
+isort = IntSort()
+bsort = BoolSort()
+x = Int('x')
+P = Function('P', isort, bsort)
+Q = Function('Q', isort, bsort)
+
+left8 = ForAll(x, And(Not(P(x)), Q(x)))
+right8 = ForAll(x, Implies(P(x), Q(x)))
+exercise8 = Implies(left8, right8)
+prove_tautology(exercise8, "Exercise 8") 
 
 # exercise 9 : ∀x.(P(x) /\ Q(x)) <-> (∀x.P(x) /\ ∀x.Q(x))
-# Please use z3 to define the proposition. 
+# Please use z3 to define the proposition.
 # Note that you need to define the proposition, and prove it.
-raise NotImplementedError('TODO: Your code here!') 
+isort = IntSort()
+bsort = BoolSort()
+x = Int('x')
+P = Function('P', isort, bsort)
+Q = Function('Q', isort, bsort)
+
+left9 = ForAll(x, And(P(x), Q(x)))
+right9 = And(ForAll(x, P(x)), ForAll(x, Q(x)))
+exercise9 = And(Implies(left9, right9), Implies(right9, left9))
+prove_tautology(exercise9, "Exercise 9") 
 
 # exercise 10 : ∃x.(¬P(x) \/ Q(x)) -> ∃x.(¬(P(x) /\ ¬Q(x)))
-# Please use z3 to define the proposition. 
+# Please use z3 to define the proposition.
 # Note that you need to define the proposition, and prove it.
-raise NotImplementedError('TODO: Your code here!') 
+isort = IntSort()
+bsort = BoolSort()
+x = Int('x')
+P = Function('P', isort, bsort)
+Q = Function('Q', isort, bsort)
+
+left10 = Exists(x, Or(Not(P(x)), Q(x)))
+right10 = Exists(x, Not(And(P(x), Not(Q(x)))))
+exercise10 = Implies(left10, right10)
+prove_tautology(exercise10, "Exercise 10") 
 
 # exercise 11 : ∃x.(P(x) \/ Q(x)) <-> (∃x.P(x) \/ ∃x.Q(x))
-# Please use z3 to define the proposition. 
+# Please use z3 to define the proposition.
 # Note that you need to define the proposition, and prove it.
-raise NotImplementedError('TODO: Your code here!') 
+isort = IntSort()
+bsort = BoolSort()
+x = Int('x')
+P = Function('P', isort, bsort)
+Q = Function('Q', isort, bsort)
+
+left11 = Exists(x, Or(P(x), Q(x)))
+right11 = Or(Exists(x, P(x)), Exists(x, Q(x)))
+exercise11 = And(Implies(left11, right11), Implies(right11, left11))
+prove_tautology(exercise11, "Exercise 11") 
 
 # exercise 12 : ∀x.(P(x) -> ¬Q(x)) -> ¬(∃x.(P(x) /\ Q(x)))
-# Please use z3 to define the proposition. 
+# Please use z3 to define the proposition.
 # Note that you need to define the proposition, and prove it.
-raise NotImplementedError('TODO: Your code here!') 
+isort = IntSort()
+bsort = BoolSort()
+x = Int('x')
+P = Function('P', isort, bsort)
+Q = Function('Q', isort, bsort)
+
+left12 = ForAll(x, Implies(P(x), Not(Q(x))))
+right12 = Not(Exists(x, And(P(x), Q(x))))
+exercise12 = Implies(left12, right12)
+prove_tautology(exercise12, "Exercise 12") 
 
 # exercise 13 : ∃x.(P(x) /\ Q(x)) /\ ∀x.(P(x) -> R(x)) -> ∃x.(R(x) /\ Q(x))
-# Please use z3 to define the proposition. 
+# Please use z3 to define the proposition.
 # Note that you need to define the proposition, and prove it.
-raise NotImplementedError('TODO: Your code here!') 
+isort = IntSort()
+bsort = BoolSort()
+x = Int('x')
+P = Function('P', isort, bsort)
+Q = Function('Q', isort, bsort)
+R = Function('R', isort, bsort)
+
+left13 = And(Exists(x, And(P(x), Q(x))), ForAll(x, Implies(P(x), R(x))))
+right13 = Exists(x, And(R(x), Q(x)))
+exercise13 = Implies(left13, right13)
+prove_tautology(exercise13, "Exercise 13") 
 
 # exercise 14 : ∃x.∃y.P(x, y) -> ∃y.∃x.P(x, y)
-# Please use z3 to define the proposition. 
+# Please use z3 to define the proposition.
 # Note that you need to define the proposition, and prove it.
-raise NotImplementedError('TODO: Your code here!') 
+isort = IntSort()
+bsort = BoolSort()
+x = Int('x')
+y = Int('y')
+P = Function('P', isort, isort, bsort)
+
+left14 = Exists(x, Exists(y, P(x, y)))
+right14 = Exists(y, Exists(x, P(x, y)))
+exercise14 = Implies(left14, right14)
+prove_tautology(exercise14, "Exercise 14") 
 
 # exercise 15 : P(b) /\ (∀x.∀y.(P(x) /\ P(y) -> x = y)) -> (∀x.(P(x) <-> x = b))
-# Please use z3 to define the proposition. 
+# Please use z3 to define the proposition.
 # Note that you need to define the proposition, and prove it.
-raise NotImplementedError('TODO: Your code here!') 
+isort = IntSort()
+bsort = BoolSort()
+x = Int('x')
+y = Int('y')
+b = Int('b')
+P = Function('P', isort, bsort)
+
+left15 = And(P(b), ForAll([x, y], Implies(And(P(x), P(y)), x == y)))
+right15 = ForAll(x, And(Implies(P(x), x == b), Implies(x == b, P(x))))
+exercise15 = Implies(left15, right15)
+prove_tautology(exercise15, "Exercise 15") 
 
 
 ################################################################
@@ -169,11 +266,68 @@ raise NotImplementedError('TODO: Your code here!')
 #
 # Please prove that integers 9, 25, and 99 are odd numbers.
 
-# declare sorts: isort and bsort
 isort = IntSort()
 bsort = BoolSort()
 
-raise NotImplementedError('TODO: Your code here!') 
+odd = Function('odd', isort, bsort)
+
+n = Int('n')
+
+rule1 = odd(1)
+rule2 = ForAll(n, Implies(odd(n), odd(n + 2)))
+
+print("Part C Challenge:")
+print("Rule 1 (odd_1):")
+pretty_print(rule1)
+print("Rule 2 (odd_ss):")
+pretty_print(rule2)
+# print("Rule 2 raw:", rule2)
+print()
+
+# Create solver and add the rules
+s = Solver()
+s.add(rule1)
+s.add(rule2)
+
+# Prove that 9 is odd
+print("Proving 9 is odd:")
+s.push()
+s.add(Not(odd(9)))
+result = s.check()
+if result == unsat:
+    print("9 is odd (proven)")
+else:
+    print("Cannot prove 9 is odd")
+s.pop()
+
+# Prove that 25 is odd
+print("Proving 25 is odd:")
+s.push()
+s.add(Not(odd(25)))
+result = s.check()
+if result == unsat:
+    print("25 is odd (proven)")
+else:
+    print("Cannot prove 25 is odd")
+s.pop()
+
+# If 25 is proven odd, add it as a fact to help prove larger odd numbers
+if result == unsat:
+    s.add(odd(25))
+
+# Prove that 99 is odd
+print("Proving 99 is odd:")
+s.push()
+s.add(Not(odd(99)))
+result = s.check()
+if result == unsat:
+    print("99 is odd (proven)")
+else:
+    print("Cannot prove 99 is odd")
+s.pop()
+
+print()
+print("All exercises completed!") 
 
 
 
